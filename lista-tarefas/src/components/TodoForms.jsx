@@ -1,16 +1,42 @@
-import React from 'react'
+import {React} from 'react'
+import { useState } from 'react'
 
-const TodoForms = () => {
+
+const TodoForms = ({addTodo}) => {
+  const [value, setValue] = useState("")
+  const [category, setCategory] = useState("")
+
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    if(!value || !category) return
+    addTodo(value, category)
+    setValue("")
+    setCategory("")
+    
+    //console.log(value, category);
+  }
+
   return (
     <div className='todo-form'>
         <h2>Criar tarefa:</h2>
-        <form action="">
-            <input type="text" placeholder='Digite o titulo' />
-            <select>
+        <form onSubmit={handleSubmit}>
+            <input type="text"
+             placeholder='Digite o titulo'
+             value={value} 
+             onChange={
+              (e) => setValue(e.target.value)
+            } />
+            <select 
+            value={category}
+            onChange={
+              (e) => setCategory(e.target.value)
+            } >
+              <option value="">Selecione uma categoria:</option>
                 <option value="Trabalho">Trabalho</option>
                 <option value="Estudo">Estudo</option>
-                <option value="Pessoal">Estudo</option>
+                <option value="Pessoal">Pessoal</option>
             </select>
+            <button type='submit'>Criar Tarefa</button>
         </form>
     </div>
   )
